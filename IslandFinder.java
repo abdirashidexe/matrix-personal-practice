@@ -19,7 +19,7 @@ public class IslandFinder {
 
         // step 3: make visited tracker w/ same shape as grid (rows x cols) - don't want to count same island more than 1x
         // boolean "grid" that says if we've visited (everything is FALSE by default)
-        // + make count variable
+        // + make count variable (and RETURN it)
         boolean[][] visited = new boolean[rows][cols];
         int count = 0;
 
@@ -37,7 +37,7 @@ public class IslandFinder {
                 }
             }
         }
-        return 0;
+        return count;
     }
 
     // step 7: create dfs helper method -- grid (island map), r/c (current cell we're visiting), visited (mark cells we counted)
@@ -46,7 +46,16 @@ public class IslandFinder {
     {
         // step 8: base cases: if out of bounds (4 required checks) & if water OR visited
         // think "LOCAL CHECK": continue exploring from THIS cell?
+        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) return;
+        if (grid[r][c] == 0 || visited[r][c]) return;
 
+        // step 9: mark cell as visited
+        visited[r][c] = true; 
 
+        // step 10: if neither is TRUE, we have a land cell to explore (so: check all 4 directions / neighboring cells)
+        dfs(grid, r - 1, c, visited); // up
+        dfs(grid, r + 1, c, visited); // down
+        dfs(grid, r, c - 1, visited);
+        dfs(grid, r, c + 1, visited);
     }
 }
